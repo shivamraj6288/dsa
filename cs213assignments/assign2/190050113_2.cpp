@@ -54,11 +54,67 @@ unsigned long long int f1 (unsigned long long int n){
 	return lv[0][n];
 }
 
-char f2 (unsigned long long int n){
+char f2helper (unsigned long long int i, unsigned long long int n, char x){
+	// cout << "f2helper check : i,n,x " << i << " " << n << " " << x << endl;
+	if (i+1<=fv[id[x]].length()){
+		// cout << "i, n, x : " <<i <<" " << n<< " "<< x << endl;
+		return fv[id[x]][i];
+	}
+	unsigned long long int vl=0;
+	char b;
+	for (int j=0; j<fv[id[x]].length();j++){
+		vl += lv[id[fv[id[x]][j]]][n-1];
+		if (vl>= i+1){
+			b=fv[id[x]][j];
+			vl -= lv[id[fv[id[x]][j]]][n-1];
+			i-=vl;
+			break;
+		}
+	}
 
-	return 'a';
+	return f2helper(i, n-1, b);
+}
+
+char f2 (unsigned long long int n,char x){
+	unsigned long long int val=11110;
+	bool bch=true;
+	// cout <<val << endl;
+	if (lv.size()>0){
+		// cout << lv[id[x]][check[id[x]].size()-1] << " check 1 complete\n";
+		if (lv[id[x]][check[id[x]].size()-1]>n+1){
+			for (unsigned long long int i=check[id[x]].size()-1; i>=0; i--){
+				if (lv[id[x]][i]<n+1){
+					val=i+1;
+					bch=false;
+					break;
+				}
+			}
+		}
+	}
+
+	if (bch) {
+		for (unsigned long long int i=check[id[x]].size(); true; i++){
+			if (f1(i)>=n+1){
+				val=i;
+				// cout << "check 2 " << val << endl;
+				break;
+			}
+		}
+	}
+	// if (val==11110){
+		// return ('s');
+	// }
+	// cout << "req value greater than given i : " << val << endl;
+
+	return (f2helper(n,val,x));
+
+
+
+	
 
 }
+
+
 int main () {
 	cin >> k;
 	char tcl[6]={'a','b','c','d','e','f'};
@@ -91,8 +147,9 @@ int main () {
 			break;
 
 			case 1:
-				cin >> n;	
-				cout <<f2(n);
+				cin >> n;
+				// cout << n << endl;	
+				cout <<f2(n,'a')<< endl;
 			break;
 
 			case 2:
