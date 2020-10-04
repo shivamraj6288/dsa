@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long int
+#define llu long long unsigned int
 char *cl;
 map <char, int> id;
 int k;
@@ -227,6 +229,107 @@ char f2 (unsigned long long int n,char x){
 
 }
 
+void computeLPSArray(char* pat, int M, int* lps); 
+  
+long long int KMPSearch(char* pat, char* txt) 
+{ 
+    int M = strlen(pat); 
+    int N = strlen(txt); 
+  
+    int lps[M]; 
+  
+    computeLPSArray(pat, M, lps); 
+  
+    int i = 0; 
+    int j = 0;
+    while (i < N) { 
+        if (pat[j] == txt[i]) { 
+            j++; 
+            i++; 
+        } 
+  
+        if (j == M) { 
+        	ll rsVal=i-j;
+        	j = lps[j - 1];
+            return rsVal;
+             
+        }  
+        else if (i < N && pat[j] != txt[i]) { 
+
+            if (j != 0) 
+                j = lps[j - 1]; 
+            else
+                i = i + 1; 
+        } 
+    }
+    return -1;
+} 
+  
+void computeLPSArray(char* pat, int M, int* lps) 
+{ 
+    int len = 0; 
+  
+    lps[0] = 0;
+  
+    int i = 1; 
+    while (i < M) { 
+        if (pat[i] == pat[len]) { 
+            len++; 
+            lps[i] = len; 
+            i++; 
+        } 
+        else
+        { 
+
+            if (len != 0) { 
+                len = lps[len - 1]; 
+            } 
+            else
+            { 
+                lps[i] = 0; 
+                i++; 
+            } 
+        } 
+    } 
+}
+
+unsigned long long int f3 (string pat){
+        string f20k="";
+        f20k+=fv[0];
+        int last_size=1;
+        while(f20k.size()<20000){
+            int csize=f20k.size();
+            for(int i=last_size;i<csize;i++){
+                f20k+=fv[id[f20k[i]]];
+            }
+            last_size=csize;
+        }
+        f20k+='\n';
+        char cpat[pat.size()+1];
+        char ctxt[f20k.size()+1];
+        strcpy(cpat,pat.c_str());
+        strcpy(ctxt,f20k.c_str());
+        long long int  si=KMPSearch(cpat,ctxt);
+        if(si == -1 ) return -1;
+        else{
+            vector<vector<unsigned long long int>> f;
+            vector<unsigned long long int > temp(k,1);
+            f.push_back(temp);
+            while(si+pat.size()-1>=f[f.size()-1][0]){
+                vector<unsigned long long int> tem(k);
+                for(int j=0;j<k;j++){
+                    tem[j]=0;
+                    for(int p=0;p<fv[j].size();p++){
+                        tem[j]+=f[f.size()-1][fv[j][p]-97];
+                    }
+                }
+                f.push_back(tem);
+            }
+            int n=f.size()-1;
+            return si;
+        }
+}
+
 
 int main () {
 	cin >> k;
@@ -303,22 +406,145 @@ int main () {
 				unsigned long long int n;
 				cin >> n;
 				cout << f1fast(n)<< endl;
-
 				break;
 
 			case 1:
 				cin >> n;
 				// cout << n << endl;	
 				cout <<f2(n,'a')<< endl;
-			break;
+				break;
 
-			case 2:
-				cout << "not complete" << endl;
-			break ;
+			// case 2:
+			// 	string pat;
+			// 	cin>>pat;
+   //          string txt="";
+   //          txt+=fv[0];
+   //          int last_size=1;
+   //          while(txt.size()<20000){
+   //              int curr_size=txt.size();
+   //              for(int i=last_size;i<curr_size;i++){
+   //                  txt+=fv[txt[i]-97];
+   //              }
+   //              last_size=curr_size;
+   //          }
+   //          txt+='\n';
+   //          char cpat[pat.size()+1];
+   //          char ctxt[txt.size()+1];
+   //          strcpy(cpat,pat.c_str());
+   //          strcpy(ctxt,txt.c_str());
+   //          ll si=KMPSearch(cpat,ctxt);
+   //          if(si == -1 ) cout<<"-1"<< endl;
+   //          else{
+   //          	cout << "si is noy -1 \n"; 
+   //              vector<vector<llu>> f;
+   //              vector<llu> temp(k,1);
+   //              f.push_back(temp);
+   //              while(si+pat.size()-1>=f[f.size()-1][0]){
+   //                  vector<llu> tem(k);
+   //                  for(int j=0;j<k;j++){
+   //                      tem[j]=0;
+   //                      for(int p=0;p<fv[j].size();p++){
+   //                          tem[j]+=f[f.size()-1][fv[j][p]-97];
+   //                      }
+   //                  }
+   //                  f.push_back(tem);
+   //              }
+   //              int n=f.size()-1;
+   //              cout<<n<<" "<<si<<"\n";
+   //          }
+			// break ;
 
-			case 3:
-				cout << "not complete" << endl;
-			break;
+				// case 2:
+				// 	string pat;
+				// 	cin >> pat;
+				// 	unsigned long long int nmin;
+				// 	long long int si=-1;
+				// 	for (int i=0; true; i++){
+				// 		if (f1(i)>=pat.length()){
+				// 			nmin=i;
+				// 			break;
+				// 		}
+				// 	}
+
+			// 		string txt="";
+		 //            txt+=fv[0];
+		 //            int last_size=1;
+			        
+			//             for(int itr=1; itr<=nmin; itr++){
+			//                 int curr_size=txt.size();
+			//                 for(int i=last_size;i<curr_size;i++){
+			//                     txt+=fv[txt[i]-97];
+			//                 }
+			//                 last_size=curr_size;
+			//             }
+			//             // txt+='\n';
+			//         for(int incr=0; incr<5; incr++){
+			//         	int curr_size=txt.size();
+		 //                for(int i=last_size;i<curr_size;i++){
+		 //                    txt+=fv[txt[i]-97];
+		 //                }
+		 //                last_size=curr_size;
+			//             char cpat[pat.size()+1];
+			//             char ctxt[txt.size()+1];
+			//             strcpy(cpat,pat.c_str());
+			//             strcpy(ctxt,txt.c_str());
+			//             si=KMPSearch(cpat,ctxt);
+
+			//             if (si!=-1){
+			//             	nmin=nmin+incr;
+			//             	break;
+			//             }
+		 //        	}
+
+		 //        	if (si==-1){
+		 //        		cout << -1 << endl;
+		 //        	}
+		 //        	else {
+		 //        	cout << nmin << " " <<si<< endl;		        		
+		 //        	}
+
+			// 		break;
+
+			// case 3:
+			// 	string pat;cin>>pat;
+	  //           string txt="";
+	  //           txt+=c[0];
+	  //           int last_size=1;
+	  //           while(txt.size()<20000){
+	  //               int curr_size=txt.size();
+	  //               for(int i=last_size;i<curr_size;i++){
+	  //                   txt+=c[txt[i]-97];
+	  //               }
+	  //               last_size=curr_size;
+	  //           }
+	  //           int i=0,j=0,lpat=pat.size(),ltxt=txt.size();
+	  //           while(j!=ltxt){
+	  //               if(pat[i]==txt[j]){
+	  //                   i++;
+	  //                   if(i==lpat) break;
+	  //               }
+	  //               j++;
+	  //           }
+	  //           if(j==ltxt) cout<<"-1\n";
+	  //           else{
+	  //               ll si=j;
+	  //               vector<vector<llu>> f;
+	  //               vector<llu> temp(k,1);
+	  //               f.push_back(temp);
+	  //               while(si>=f[f.size()-1][0]){
+	  //                   vector<llu> tem(k);
+	  //                   for(int j=0;j<k;j++){
+	  //                       tem[j]=0;
+	  //                       for(int p=0;p<c[j].size();p++){
+	  //                           tem[j]+=f[f.size()-1][c[j][p]-97];
+	  //                       }
+	  //                   }
+	  //                   f.push_back(tem);
+	  //               }
+	  //               int n=f.size()-1;
+	  //               cout<<n<<" "<<si+1<<"\n";
+	  //           }
+			// 	break;
 
 		}
 	}
