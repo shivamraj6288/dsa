@@ -7,6 +7,110 @@ string *fv;
 
 vector <vector<bool>>check;
 vector <vector<unsigned long long int>> lv;
+vector<vector<unsigned long long int>> mat;
+
+vector <vector<unsigned long long int>> squaremat (vector <vector<unsigned long long int>> a ) {
+	// vector <unsigned long long int> temp(k,0);
+	vector <vector<unsigned long long int>> mul;
+	for (int i=0; i<k; i++){
+		vector<unsigned long long int> temp;
+		for (int i=0; i<k; i++){
+			temp.push_back(0);
+		}
+		mul.push_back(temp);
+	}
+
+    for (int i = 0; i < k; i++) 
+
+    {
+
+        for (int j = 0; j < k; j++) 
+
+        { 
+
+            // mul[i][j] = 0; 
+
+            for (int l = 0; l < k; l++) 
+
+                mul[i][j] += a[i][l]*a[l][j]; 
+
+        } 
+
+    } 
+
+    return mul;
+
+}
+
+vector <vector<unsigned long long int>> multiply (vector <vector<unsigned long long int>> a, vector <vector<unsigned long long int>>b ) {
+	// vector <unsigned long long int> temp(k,0);
+	vector <vector<unsigned long long int>> mul;
+	for (int i=0; i<k; i++){
+		vector<unsigned long long int> temp;
+		for (int i=0; i<k; i++){
+			temp.push_back(0);
+		}
+		mul.push_back(temp);
+	}
+
+    for (int i = 0; i < k; i++) 
+
+    {
+
+        for (int j = 0; j < k; j++) 
+
+        { 
+
+            // mul[i][j] = 0; 
+
+            for (int l = 0; l < k; l++) 
+
+                mul[i][j] += a[i][l]*b[l][j]; 
+
+        } 
+
+    } 
+
+    return mul;
+
+}
+
+vector <vector<unsigned long long int>> power (vector <vector<unsigned long long int>> a, unsigned long long int n){
+	if (n==1){
+		// cout << "power is 1 : " << n << endl;
+		return a;
+	}
+
+
+
+	if (n%2==0){
+		// cout << "power is 2 : " << n << endl;
+		return (squaremat(power(a,n/2)));
+	}
+
+	// cout << "power is 3 : " << n << endl;
+	return (multiply(a, squaremat(power(a,n/2))));
+	
+}
+
+unsigned long long int f1fast(unsigned long long int n){
+	if (n==0){
+		return 1;
+
+	}
+	// cout << "before\n";
+	vector <vector<unsigned long long int>> val=power(mat,n);
+	// cout << "after \n";
+	unsigned long long int rs=0;
+	// cout << "val size : " << val.size() << "," << val[0].size() << endl;
+	for (int i=0; i<k; i++){
+		// cout << "i value while calculating rs : " << i << endl;
+		rs+=val[0][i];
+	}	
+
+	return rs;
+}
+
 
 
 unsigned long long int f1 (unsigned long long int n){
@@ -56,7 +160,7 @@ unsigned long long int f1 (unsigned long long int n){
 
 char f2helper (unsigned long long int i, unsigned long long int n, char x){
 	// cout << "f2helper check : i,n,x " << i << " " << n << " " << x << endl;
-	if (i+1<=fv[id[x]].length()){
+	if (n==1){
 		// cout << "i, n, x : " <<i <<" " << n<< " "<< x << endl;
 		return fv[id[x]][i];
 	}
@@ -77,37 +181,46 @@ char f2helper (unsigned long long int i, unsigned long long int n, char x){
 
 char f2 (unsigned long long int n,char x){
 	unsigned long long int val=11110;
-	bool bch=true;
-	// cout <<val << endl;
-	if (lv.size()>0){
-		// cout << lv[id[x]][check[id[x]].size()-1] << " check 1 complete\n";
-		if (lv[id[x]][check[id[x]].size()-1]>n+1){
-			for (unsigned long long int i=check[id[x]].size()-1; i>=0; i--){
-				if (lv[id[x]][i]<n+1){
-					val=i+1;
-					bch=false;
-					break;
-				}
-			}
-		}
-	}
-
-	if (bch) {
-		for (unsigned long long int i=check[id[x]].size(); true; i++){
-			if (f1(i)>=n+1){
-				val=i;
-				// cout << "check 2 " << val << endl;
-				break;
-			}
-		}
-	}
-	// if (val==11110){
-		// return ('s');
+	// bool bch=true;
+	// // cout <<val << endl;
+	// if (lv.size()>0){
+	// 	// cout << lv[id[x]][check[id[x]].size()-1] << " check 1 complete\n";
+	// 	if (lv[id[x]][check[id[x]].size()-1]>n+1){
+	// 		for (unsigned long long int i=check[id[x]].size()-1; i>=0; i--){
+	// 			if (lv[id[x]][i]<n+1){
+	// 				val=i+1;
+	// 				bch=false;
+	// 				break;
+	// 			}
+	// 		}
+	// 	}
 	// }
-	// cout << "req value greater than given i : " << val << endl;
+
+	// if (bch) {
+	// 	for (unsigned long long int i=check[id[x]].size(); true; i++){
+	// 		if (f1(i)>=n+1){
+	// 			val=i;
+	// 			// cout << "check 2 " << val << endl;
+	// 			break;
+	// 		}
+	// 	}
+	// }
+	// // if (val==11110){
+	// 	// return ('s');
+	// // }
+	// // cout << "req value greater than given i : " << val << endl;
+
+	// return (f2helper(n,val,x));
+
+	for (unsigned long long int i=0; true; i++){
+		if (f1(i)>=n+1){
+			val=i;
+			// cout << "check 2 " << val << endl;
+			break;
+		}
+	}
 
 	return (f2helper(n,val,x));
-
 
 
 	
@@ -132,6 +245,46 @@ int main () {
 	}
 
 
+	for (int i=0; i<k; i++){
+		vector <unsigned long long int> temp(k,0);
+		for (int j=0; j<fv[i].length(); j++){
+			switch (fv[i][j]){
+				case 'a' :
+					temp[0]++;
+					break;
+				case 'b':
+					temp[1]++;
+					break;
+				case 'c':
+					temp[2]++;
+					break;
+				case 'd':
+					temp[3]++;
+					break;
+				case 'e':
+					temp[4]++;
+					break;
+				case 'f':
+					temp[5]++;
+					break;
+
+			}
+
+		}
+		mat.push_back(temp);
+
+	}
+
+	// cout << "mat size : "<< mat.size() << ","<< mat[0].size() << endl;
+
+	for (int i=0; i<k; i++){
+		for (int j=0; j<k; j++){
+			// cout << mat[i][j] << " ";
+		}
+		// cout << endl;
+	}
+
+	// cout << "mat is formed" << endl;
 
 	int T;
 	cin >> T;
@@ -140,11 +293,18 @@ int main () {
 		int q;
 		cin >> q;
 		switch (q) {
+			// case 0:
+			// 	unsigned long long int n;
+			// 	cin >> n;
+			// 	cout << f1(n)<< endl;
+			// break;
+
 			case 0:
 				unsigned long long int n;
 				cin >> n;
-				cout << f1(n)<< endl;
-			break;
+				cout << f1fast(n)<< endl;
+
+				break;
 
 			case 1:
 				cin >> n;
