@@ -47,7 +47,11 @@ int findlmin(int a, vector<T> s){
 int main () {
 	int n;
 	cin >>n;
-	int a[n], b[n], c[n], d[n];
+	int *a=new int[n];
+	int *b=new int[n];	
+	int *c=new int[n];
+	int *d=new int[n];
+	// int a[n], b[n], c[n], d[n];
 	bool possible=true;
 	vector <int> rsp;
 	vector <int> rsq;
@@ -63,6 +67,9 @@ int main () {
 	for (int i=0; i< n; i++){
 		cin >> d[i];
 	}
+	// for (int i=0; i< n; i++){
+	// 	cout << a[i] <<",";
+	// }
 
 	vector <T> s1;
 	vector <T> s2;
@@ -70,6 +77,7 @@ int main () {
 	// cout << "values accepted" << endl;
 
 	for (int i=1; i<=n; i++){
+		// cout << a[i] << ",";
 		T temp(i, a[i-1], b[i-1]);
 		s1.push_back(temp);
 
@@ -83,11 +91,12 @@ int main () {
 	sort (s2.begin(), s2.end(), compare1());
 
 	// for (int i=0; i<n; i++){
-	// 	cout << "("<<s1[i].n1<<","<<s1[i].n2<<") , ";
+		// cout << "("<<s1[i].n1<<","<<s1[i].n2<<") \n";
 	// }
 	// cout << "\n";
+	// cout << "=======================================\n";
 	// for (int i=0; i<n; i++){
-	// 	cout << "("<<s2[i].n1<<","<<s2[i].n2<<") , ";
+		// cout << "("<<s2[i].n1<<","<<s2[i].n2<<") , ";
 	// }
 	// cout << "\n";
 	// cout << "s1.size() = " << s1.size() << endl;
@@ -113,6 +122,9 @@ int main () {
 
 			sort(ta.begin(), ta.end(),compare2());
 			// cout << "ta created \n";
+		}
+		else {
+
 		}
 
 		if (tc.empty()){
@@ -144,9 +156,9 @@ int main () {
 				}
 				else {
 					int rindex=findlmin(ta[0].n2,tc);
-					// if (rindex==-1){
-					// 	cout << "-1 error of findlmin \n";
-					// }
+					if (rindex==-1){
+						// cout << "-1 error of findlmin \n";
+					}
 					rsp.push_back(ta[0].index);
 					ta.erase(ta.begin());
 					rsq.push_back(tc[rindex].index);
@@ -199,5 +211,39 @@ int main () {
 			cout << rsq[i]<< " ";
 		}
 		cout << endl;
+	}
+	// cout << possible<< endl;
+	if (possible){
+
+
+		bool unique=true;
+
+		int i=0; 
+		int j=i+1;
+		while (i<n && j<n){
+			
+			while (true && j<n){
+				if (c[rsq[j]]!=c[rsq[i]]){
+					// cout << "i reassigned : " << j << endl;
+					i=j;
+					break;
+				}
+				else if (max(d[rsq[i]],d[rsq[j]])<=min(b[rsp[i]],b[rsp[j]])){
+					// cout << "diff point : " << i << "," << j << endl;
+					unique=false;
+					break;
+				}
+				j++;
+			}
+
+			if(!unique){
+				break;
+			}
+		}
+
+		if (unique)
+			cout << "unique\n";
+		else
+			cout << "not unique\n";
 	}
 }
