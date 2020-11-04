@@ -2,7 +2,7 @@
 
 class quad_tree{
 	public :
-	int size;
+	int sz;
 	int n;
 	int value;
 	int *node;
@@ -15,7 +15,7 @@ class quad_tree{
 		node=new int[2];
 		node[0]=0;
 		node[1]=1;
-		size=pow(2,p);
+		sz=pow(2,p);
 		n=p;
 		value=0;
 		 c1=NULL;
@@ -33,7 +33,7 @@ class quad_tree{
 	}
 
 	quad_tree(quad_tree const &Q){
-		size=Q.size;
+		sz=Q.sz;
 		value=Q.value;
 		node[0]=Q.node[0];
 		node[1]=Q.node[1];
@@ -54,7 +54,7 @@ class quad_tree{
 		node=new int[2];
 		node[0]=x;
 		node[1]=y;
-		size=pow(2,p);
+		sz=pow(2,p);
 		n=p;
 		value=v;
 		 c1=NULL;
@@ -73,11 +73,11 @@ class quad_tree{
 	void set (int x1, int y1, int x2, int y2, int b){
 		if (b==value)
 			return;
-		if (x1>=node[0] && x2<node[0]+size/2 ){
-			if (y1>=node[1] && y2<node[1]+size/2){
+		if (x1>=node[0] && x2<node[0]+sz/2 ){
+			if (y1>=node[1] && y2<node[1]+sz/2){
 				//c1
 				c1=new quad_tree(n-1, value, node[0], node[1]);
-				if (x1==c1->node[0] && x2==c1->node[0]+c1->size && y1==c1->node[1] && y2==c1->node[1]+c1->size){
+				if (x1==c1->node[0] && x2==c1->node[0]+c1->sz && y1==c1->node[1] && y2==c1->node[1]+c1->sz){
 					c1->value=b;
 				}
 
@@ -87,19 +87,19 @@ class quad_tree{
 
 
 
-				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
-				// c2->initial(value,node[0]+size/2, node[1]);
-				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
-				// c3->initial(value, node[0], node[1]+size/2);
-				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
-				// c4->initial(value, node[0]+size/2, node[1]+size/2);
+				c2=new quad_tree(n-1,value,node[0]+sz/2, node[1]);
+				// c2->initial(value,node[0]+sz/2, node[1]);
+				c3=new quad_tree(n-1,value, node[0], node[1]+sz/2);
+				// c3->initial(value, node[0], node[1]+sz/2);
+				c4=new quad_tree(n-1, value, node[0]+sz/2, node[1]+sz/2);
+				// c4->initial(value, node[0]+sz/2, node[1]+sz/2);
 				return;
 
 			}
-			else if (y1>=node[1]+size/2){
+			else if (y1>=node[1]+sz/2){
 				//c3
-				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
-				if (x1==c3->node[0] && x2==c3->node[0]+c3->size && y1==c3->node[1] && y2==c3->node[1]+c3->size){
+				c3=new quad_tree(n-1,value, node[0], node[1]+sz/2);
+				if (x1==c3->node[0] && x2==c3->node[0]+c3->sz && y1==c3->node[1] && y2==c3->node[1]+c3->sz){
 					c3->value=b;
 				}
 
@@ -108,21 +108,21 @@ class quad_tree{
 				}
 
 
-				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
-				// c2->initial(value,node[0]+size/2, node[1]);
+				c2=new quad_tree(n-1,value,node[0]+sz/2, node[1]);
+				// c2->initial(value,node[0]+sz/2, node[1]);
 				c1=new quad_tree(n-1, value, node[0], node[1]);
 				// c1->initial(value, node[0], node[1]);
-				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
-				// c4->initial(value, node[0]+size/2, node[1]+size/2);
+				c4=new quad_tree(n-1, value, node[0]+sz/2, node[1]+sz/2);
+				// c4->initial(value, node[0]+sz/2, node[1]+sz/2);
 				return;
 
 			}
 		}
-		else if (x1>=node[0]+size/2) {
-			if (y1>=node[1] && y2<node[1]+size/2){
+		else if (x1>=node[0]+sz/2) {
+			if (y1>=node[1] && y2<node[1]+sz/2){
 				//c2
-				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
-				if (x1==c2->node[0] && x2==c2->node[0]+c2->size && y1==c2->node[1] && y2==c2->node[1]+c2->size){
+				c2=new quad_tree(n-1,value,node[0]+sz/2, node[1]);
+				if (x1==c2->node[0] && x2==c2->node[0]+c2->sz && y1==c2->node[1] && y2==c2->node[1]+c2->sz){
 					c2->value=b;
 				}
 
@@ -134,27 +134,27 @@ class quad_tree{
 
 				c1=new quad_tree(n-1, value, node[0], node[1]);
 				// c1->initial(value, node[0], node[1]);
-				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
-				// c3->initial(value, node[0], node[1]+size/2);
-				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
-				// c4->initial(value, node[0]+size/2, node[1]+size/2);
+				c3=new quad_tree(n-1,value, node[0], node[1]+sz/2);
+				// c3->initial(value, node[0], node[1]+sz/2);
+				c4=new quad_tree(n-1, value, node[0]+sz/2, node[1]+sz/2);
+				// c4->initial(value, node[0]+sz/2, node[1]+sz/2);
 				return;
 
 			}
-			else if (y1>=node[1]+size/2){
+			else if (y1>=node[1]+sz/2){
 				//c4
-				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
-				if (x1==c4->node[0] && x2==c4->node[0]+c4->size && y1==c4->node[1] && y2==c4->node[1]+c4->size){
+				c4=new quad_tree(n-1, value, node[0]+sz/2, node[1]+sz/2);
+				if (x1==c4->node[0] && x2==c4->node[0]+c4->sz && y1==c4->node[1] && y2==c4->node[1]+c4->sz){
 					c4->value=b;
 				}
 
 				else {
 					c4->set(x1,y1,x2,y2,b);
 				}
-				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
-				// c2->initial(value,node[0]+size/2, node[1]);
-				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
-				// c3->initial(value, node[0], node[1]+size/2);
+				c2=new quad_tree(n-1,value,node[0]+sz/2, node[1]);
+				// c2->initial(value,node[0]+sz/2, node[1]);
+				c3=new quad_tree(n-1,value, node[0], node[1]+sz/2);
+				// c3->initial(value, node[0], node[1]+sz/2);
 				c1=new quad_tree(n-1, value, node[0], node[1]);
 				// c1->initial(value, node[0], node[1]);
 				return;
@@ -163,40 +163,40 @@ class quad_tree{
 		}
 
 		else {
-			if (y1>=node[1] && y2<node[1]+size/2){
+			if (y1>=node[1] && y2<node[1]+sz/2){
 				//c1 and c3
 				c1=new quad_tree(n-1, value, node[0], node[1]);
-				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
+				c2=new quad_tree(n-1,value,node[0]+sz/2, node[1]);
 
-				c1->set(x1, y1, c1->node[0]+c1->size,y2,b);
+				c1->set(x1, y1, c1->node[0]+c1->sz,y2,b);
 				c3->set(c3->node[0],y1,x2,y2,b);
 
-				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
-				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
+				c3=new quad_tree(n-1,value, node[0], node[1]+sz/2);
+				c4=new quad_tree(n-1, value, node[0]+sz/2, node[1]+sz/2);
 				return;
 
 			}
-			else if (y1>=node[1]+size/2){
+			else if (y1>=node[1]+sz/2){
 				//c2 and c4
-				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
-				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
+				c3=new quad_tree(n-1,value, node[0], node[1]+sz/2);
+				c4=new quad_tree(n-1, value, node[0]+sz/2, node[1]+sz/2);
 
-				c2->set(x1,y1,c2->node[0]+c2->size,y2,b);
+				c2->set(x1,y1,c2->node[0]+c2->sz,y2,b);
 				c4->set(c4->node[0],y2,x2,y2,b);
 				c1=new quad_tree(n-1, value, node[0], node[1]);
-				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
+				c2=new quad_tree(n-1,value,node[0]+sz/2, node[1]);
 				return;
 			}
 			else {
 				//c1, c2, c3 ,c4
 				c1=new quad_tree(n-1, value, node[0], node[1]);
-				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
-				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
-				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
+				c2=new quad_tree(n-1,value,node[0]+sz/2, node[1]);
+				c3=new quad_tree(n-1,value, node[0], node[1]+sz/2);
+				c4=new quad_tree(n-1, value, node[0]+sz/2, node[1]+sz/2);
 
-				c1->set(x1,y1,c1->node[0]+c1->size,c1->node[1]+c1->size,b);
-				c3->set(c3->node[0],y1,c3->node[0]+c3->size,c3->node[1]+c3->size,b);
-				c2->set(x1,c2->node[1],c2->node[0]+c2->size,y2,b);
+				c1->set(x1,y1,c1->node[0]+c1->sz,c1->node[1]+c1->sz,b);
+				c3->set(c3->node[0],y1,c3->node[0]+c3->sz,c3->node[1]+c3->sz,b);
+				c2->set(x1,c2->node[1],c2->node[0]+c2->sz,y2,b);
 				c4->set(c4->node[0],c4->node[1],x2,y2,b);
 
 			}
@@ -209,13 +209,13 @@ class quad_tree{
 			return value;
 		}
 		else {
-			if (x1>=c1->node[0] && x1<c1->node[0]+c1->size && y1>=c1->node[1] && y1<c1->node[1]+c1->size){
+			if (x1>=c1->node[0] && x1<c1->node[0]+c1->sz && y1>=c1->node[1] && y1<c1->node[1]+c1->sz){
 				return c1->get(x1,y1);
 			}
-			else if (x1>=c2->node[0] && x1<c2->node[0]+c2->size && y1>=c2->node[1] && y1<c2->node[1]+c2->size){
+			else if (x1>=c2->node[0] && x1<c2->node[0]+c2->sz && y1>=c2->node[1] && y1<c2->node[1]+c2->sz){
 				return c2->get(x1,y1);
 			}
-			else if (x1>=c3->node[0] && x1<c3->node[0]+c3->size && y1>=c3->node[1] && y1<c3->node[1]+c3->size){
+			else if (x1>=c3->node[0] && x1<c3->node[0]+c3->sz && y1>=c3->node[1] && y1<c3->node[1]+c3->sz){
 				return c3->get(x1,y1);
 
 			}
@@ -225,7 +225,7 @@ class quad_tree{
 		}
 	}
 
-	int size (){
+	int size(){
 		return n;
 	}
 
@@ -234,10 +234,10 @@ class quad_tree{
 			value=i;
 		}
 		else {
-			c1->changeValue();
-			c2->changeValue();
-			c3->changeValue();
-			c4->changeValue();
+			c1->changeValue(i);
+			c2->changeValue(i);
+			c3->changeValue(i);
+			c4->changeValue(i);
 		}
 	}
 
@@ -253,34 +253,34 @@ class quad_tree{
 		}
 
 		else {
-			c1->overlap(Q.c1);
-			c2->overlap(Q.c2);
-			c3->overlap(Q.c3);
-			c4->overlap(Q.c4);
+			c1->overlap(*Q.c1);
+			c2->overlap(*Q.c2);
+			c3->overlap(*Q.c3);
+			c4->overlap(*Q.c4);
 		}
 
 
 	}
 	void intersect(quad_tree &Q){
 		if (Q.c1==NULL){
-			if (Q1.value==0)
+			if (Q.value==0)
 				changeValue(0);
 			else 
 				return;
 		}
 		else {
-			c1->intersect(Q.c1);
-			c2->intersect(Q.c2);
-			c3->intersect(Q.c3);
-			c4->intersect(Q.c4);
+			c1->intersect(*Q.c1);
+			c2->intersect(*Q.c2);
+			c3->intersect(*Q.c3);
+			c4->intersect(*Q.c4);
 		}
 
 	}
 
 	int neg(int i){
-		if i==0
+		if (i==0)
 			return 1;
-		if i==1
+		if (i==1)
 			return 0;
 	}
 
@@ -304,7 +304,7 @@ class quad_tree{
 	}
 
 	void extract(int x1, int y1, int m){
-		
+
 	}
 
 };
