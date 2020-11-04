@@ -227,15 +227,53 @@ class quad_tree{
 
 	int size (){
 		return n;
-
-
 	}
 
+	void changeValue(int i){
+		if (c1==NULL){
+			value=i;
+		}
+		else {
+			c1->changeValue();
+			c2->changeValue();
+			c3->changeValue();
+			c4->changeValue();
+		}
+	}
+
+
+
 	void overlap(quad_tree const &Q){
+		if (Q.c1==NULL){
+			if (Q.value==0)
+				return;
+			if (Q.value==1){
+				changeValue(1);
+			}
+		}
+
+		else {
+			c1->overlap(Q.c1);
+			c2->overlap(Q.c2);
+			c3->overlap(Q.c3);
+			c4->overlap(Q.c4);
+		}
 
 
 	}
 	void intersect(quad_tree &Q){
+		if (Q.c1==NULL){
+			if (Q1.value==0)
+				changeValue(0);
+			else 
+				return;
+		}
+		else {
+			c1->intersect(Q.c1);
+			c2->intersect(Q.c2);
+			c3->intersect(Q.c3);
+			c4->intersect(Q.c4);
+		}
 
 	}
 
@@ -249,13 +287,24 @@ class quad_tree{
 
 
 	void complement(){
-		value=neg(value);
+		// value=neg(value);
 		if (c1!=NULL){
 			c1->complement();
 			c2->complement();
 			c3->complement();
 			c4->complement();
 		}
+		else {
+			value=neg(value);
+		}
+	}
+
+	void resize(int m){
+
+	}
+
+	void extract(int x1, int y1, int m){
+		
 	}
 
 };
