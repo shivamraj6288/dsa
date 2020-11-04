@@ -226,21 +226,13 @@ class quad_tree{
 	}
 
 	int size (){
-		if (c1==NULL){
-			return 1;
-		}
-		int h1=c1->size();
-		int h2=c2->size();
-		int h3=c3->size();
-		int h4=c4->size();
-
-		return (max(h1,max(h2,max(h3,h4)))+1);
+		return n;
 
 
 	}
 
 	void overlap(quad_tree const &Q){
-		
+
 
 	}
 	void intersect(quad_tree &Q){
