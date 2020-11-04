@@ -161,6 +161,109 @@ class quad_tree{
 
 			}
 		}
+
+		else {
+			if (y1>=node[1] && y2<node[1]+size/2){
+				//c1 and c3
+				c1=new quad_tree(n-1, value, node[0], node[1]);
+				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
+
+				c1->set(x1, y1, c1->node[0]+c1->size,y2,b);
+				c3->set(c3->node[0],y1,x2,y2,b);
+
+				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
+				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
+				return;
+
+			}
+			else if (y1>=node[1]+size/2){
+				//c2 and c4
+				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
+				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
+
+				c2->set(x1,y1,c2->node[0]+c2->size,y2,b);
+				c4->set(c4->node[0],y2,x2,y2,b);
+				c1=new quad_tree(n-1, value, node[0], node[1]);
+				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
+				return;
+			}
+			else {
+				//c1, c2, c3 ,c4
+				c1=new quad_tree(n-1, value, node[0], node[1]);
+				c2=new quad_tree(n-1,value,node[0]+size/2, node[1]);
+				c3=new quad_tree(n-1,value, node[0], node[1]+size/2);
+				c4=new quad_tree(n-1, value, node[0]+size/2, node[1]+size/2);
+
+				c1->set(x1,y1,c1->node[0]+c1->size,c1->node[1]+c1->size,b);
+				c3->set(c3->node[0],y1,c3->node[0]+c3->size,c3->node[1]+c3->size,b);
+				c2->set(x1,c2->node[1],c2->node[0]+c2->size,y2,b);
+				c4->set(c4->node[0],c4->node[1],x2,y2,b);
+
+			}
+
+		}
+	}
+
+	int get (int x1, int y1){
+		if (c1==NULL){
+			return value;
+		}
+		else {
+			if (x1>=c1->node[0] && x1<c1->node[0]+c1->size && y1>=c1->node[1] && y1<c1->node[1]+c1->size){
+				return c1->get(x1,y1);
+			}
+			else if (x1>=c2->node[0] && x1<c2->node[0]+c2->size && y1>=c2->node[1] && y1<c2->node[1]+c2->size){
+				return c2->get(x1,y1);
+			}
+			else if (x1>=c3->node[0] && x1<c3->node[0]+c3->size && y1>=c3->node[1] && y1<c3->node[1]+c3->size){
+				return c3->get(x1,y1);
+
+			}
+			else {
+				return c4->get(x1,y1);
+			}
+		}
+	}
+
+	int size (){
+		if (c1==NULL){
+			return 1;
+		}
+		int h1=c1->size();
+		int h2=c2->size();
+		int h3=c3->size();
+		int h4=c4->size();
+
+		return (max(h1,max(h2,max(h3,h4)))+1);
+
+
+	}
+
+	void overlap(quad_tree const &Q){
+		
+
+	}
+	void intersect(quad_tree &Q){
+
+	}
+
+	int neg(int i){
+		if i==0
+			return 1;
+		if i==1
+			return 0;
+	}
+
+
+
+	void complement(){
+		value=neg(value);
+		if (c1!=NULL){
+			c1->complement();
+			c2->complement();
+			c3->complement();
+			c4->complement();
+		}
 	}
 
 };
